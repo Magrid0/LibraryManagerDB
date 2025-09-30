@@ -23,6 +23,34 @@ def displayBooks():
         print("No books found.")
 
 def delBook():
-    # later: add search logic here
-    pass
+    search_query = input("What book to delete?: ")
+
+    # Search by partial title
+    BooksDB.execute("SELECT id, title, author FROM books WHERE title LIKE ?", ('%' + search_query + '%',))
+    rows = BooksDB.fetchall()
+
+    if not rows:
+        print("No books found.")
+        input("Press ENTER to continue...")
+        return
+
+    # Show results
+    print("\nMatching books:")
+    for row in rows:
+        print(f"[{row[0]}] {row[1]} by {row[2]}")
+
+    # Ask which one to delete
+    try:
+        book_id = int(input("\nEnter the ID of the book to delete: "))
+    except ValueError:
+        print("Invalid input.")
+        input("Press ENTER to continue...")
+        return
+
+    # Delete by ID
+    BooksDB.execute("DELETE FROM books WHERE id = ?", (book_id,))
+    ConnectBooksDB.commit()
+
+    print("Book deleted successfully.")
+    input("Press ENTER to continue...")
 
