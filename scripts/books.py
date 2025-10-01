@@ -35,7 +35,7 @@ def delBook():
         return
 
     # Show results
-    print("\nMatching books:")
+    print(f"\nFound {len(rows)} matching books:")
     for row in rows:
         print(f"[{row[0]}] {row[1]} by {row[2]}")
 
@@ -54,3 +54,21 @@ def delBook():
     print("Book deleted successfully.")
     input("Press ENTER to continue...")
 
+def searchBook():
+    search_query = input("What book/author are you searching for?: ")
+	
+    # Search the db	
+    BooksDB.execute("SELECT id, title, author, isbn FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?", ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%',))
+    rows = BooksDB.fetchall()
+
+    if not rows:
+        print("No books found.")
+        input("Press ENTER to continue...")
+        return
+
+    # Show results
+    print(f"\nFound {len(rows)} matching books:")
+    for row in rows:
+        print(f"[{row[0]}] {row[1]} by {row[2]} (ISBN: {row[3]})")
+	
+    input("Press ENTER to continue...")
