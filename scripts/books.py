@@ -21,12 +21,13 @@ def displayBooks():
         input("Press ENTER to continue...")
     else:
         print("No books found.")
+        input("Press ENTER to continue...")
 
 def delBook():
     search_query = input("What book to delete?: ")
 
     # Search by partial title
-    BooksDB.execute("SELECT id, title, author FROM books WHERE title LIKE ?", ('%' + search_query + '%',))
+    BooksDB.execute("SELECT id, title, author, isbn FROM books WHERE title LIKE ? OR author LIKE ? OR isbn LIKE ?", ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%',))
     rows = BooksDB.fetchall()
 
     if not rows:
@@ -37,7 +38,7 @@ def delBook():
     # Show results
     print(f"\nFound {len(rows)} matching books:")
     for row in rows:
-        print(f"[{row[0]}] {row[1]} by {row[2]}")
+        print(f"[{row[0]}] {row[1]} by {row[2]} (ISBN: {row[3]})")
 
     # Ask which one to delete
     try:
