@@ -8,9 +8,11 @@ os.makedirs(DATA_DIR, exist_ok=True)
 # Connect to databases
 ConnectUsersDB = sqlite3.connect(os.path.join(DATA_DIR, "users.db"))
 ConnectBooksDB = sqlite3.connect(os.path.join(DATA_DIR, "books.db"))
+ConnectStaffDB = sqlite3.connect(os.path.join(DATA_DIR, "staff.db"))
 
 UsersDB = ConnectUsersDB.cursor()
 BooksDB = ConnectBooksDB.cursor()
+StaffDB = ConnectStaffDB.cursor()
 
 # Create books table
 BooksDB.execute("""
@@ -18,6 +20,7 @@ BooksDB.execute("""
         id INTEGER PRIMARY KEY,
         title TEXT,
         author TEXT,
+        genre TEXT,
         isbn TEXT,
         isTaken BOOLEAN
     )
@@ -31,6 +34,16 @@ UsersDB.execute("""
         surname TEXT,
         age INTEGER,
         address TEXT
+    )
+""")
+
+# Create staffs table
+StaffDB.execute("""
+    CREATE TABLE IF NOT EXISTS staff(\
+        uid INTEGER PRIMARY KEY,
+        name TEXT,
+        surname TEXT,
+        role TEXT
     )
 """)
 
