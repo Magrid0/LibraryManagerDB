@@ -37,10 +37,6 @@ LibraryManagerDB is a simple Python project designed as a library management sys
    
     ```source env/bin/activate # On Windows use env\Scripts\activate```
 
-5. Install dependencies if any:
-
-```pip install -r requirements.txt```
-
 ## Usage
 
 Run the `main.py` Python script.
