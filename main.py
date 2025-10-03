@@ -1,7 +1,8 @@
 from scripts.utils import clearScreen, figPrint
 from scripts.books import addBook, displayBooks, delBook, searchBook
 from scripts.users import addUser, displayUsers, delUser, searchUser
-from db.db import ConnectUsersDB, ConnectBooksDB
+from scripts.accounts import login, register, guest
+from db.db import ConnectUsersDB, ConnectBooksDB, ConnectAccountsDB
 
 def menu():
     while True:
@@ -46,12 +47,38 @@ def usersMenu():
             case 0: return
             case _: print("Invalid selection.")
 
+def loginMenu():
+    login()
+
+def registerMenu():
+    register()
+
+def guestMode():
+    guest()
+
+def accountsMenu():
+    while True:
+        clearScreen()
+        figPrint('Library Manager')
+        print("1. Login\n2. Register\n3. Login as guest")
+        choice = int(input("Select: "))
+
+        match choice:
+            case 1: loginMenu()
+            case 2: registerMenu()
+            case 3: guestMode()
+            case 0: exitProgram()
+            case _: 
+                print("Invalid choice.")
+                input("Press ENTER to continue...")
+
 def exitProgram():
     ConnectUsersDB.close()
     ConnectBooksDB.close()
+    ConnectAccountsDB.close()
     exit(0)
 
 if __name__ == "__main__":
     clearScreen()
-    menu()
+    accountsMenu()
 
